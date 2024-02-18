@@ -84,5 +84,24 @@ namespace AuctionService.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteAuction(Guid id)
+        {
+            var auction = await _context.Auctions.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (auction == null)
+                return NotFound();
+            
+            // TODO: Check seller is current user
+
+            _context.Auctions.Remove(auction);
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (!result)
+                return BadRequest("Could not delete auction");
+            
+            return Ok();
+        }
     }
 }
