@@ -2,12 +2,16 @@ using MongoDB.Driver;
 using MongoDB.Entities;
 using SearchService.Data;
 using SearchService.Entities;
+using SearchService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// Add HttpClient for calling AuctionService
+builder.Services.AddHttpClient<AuctionServiceHttpClient>();
 
 var app = builder.Build();
 
@@ -17,7 +21,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Initialize MongoDB and define indexes for searching
+// Initialize MongoDB
 try
 {
     await DbInitializer.InitDb(app);
