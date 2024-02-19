@@ -83,16 +83,21 @@ namespace AuctionService.Controllers
 
             // TODO: Check seller is current user
 
+            // Update all fields
             auction.Item.Make = updateAuctionDto.Make ?? auction.Item.Make;
             auction.Item.Model = updateAuctionDto.Model ?? auction.Item.Model;
             auction.Item.Color = updateAuctionDto.Color ?? auction.Item.Color;
             auction.Item.Mileage = updateAuctionDto.Mileage ?? auction.Item.Mileage;
             auction.Item.Year = updateAuctionDto.Year ?? auction.Item.Year;
 
+            // Publish message
+            await _publishEndpoint.Publish(_mapper.Map<AuctionUpdated>(auction));
+
+            // Save all changes to database
             var result = await _context.SaveChangesAsync() > 0;
 
             if (!result)
-                return BadRequest("Could not update auction");
+                return BadRequest("Problem saving changes");
 
             return Ok();
         }
@@ -108,6 +113,9 @@ namespace AuctionService.Controllers
             // TODO: Check seller is current user
 
             _context.Auctions.Remove(auction);
+
+            await _publishEndpoint.Publish<AuctionDeleted>(new { Id = auction.Id.ToString() });
+
             var result = await _context.SaveChangesAsync() > 0;
 
             if (!result)
