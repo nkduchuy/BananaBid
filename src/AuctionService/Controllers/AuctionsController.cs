@@ -56,13 +56,15 @@ namespace AuctionService.Controllers
             // TODO: Add current user as Seller
             auction.Seller = "test";
 
-            // Save to database
+            // Add to Auctions table
             _context.Auctions.Add(auction);
-            var result = await _context.SaveChangesAsync() > 0;
 
             // Map and publish to RabbitMQ
             var newAuction = _mapper.Map<AuctionDto>(auction);
             await _publishEndpoint.Publish(_mapper.Map<AuctionCreated>(newAuction));
+
+            // Save all changes to database
+            var result = await _context.SaveChangesAsync() > 0;
 
             if (!result)
                 return BadRequest("Could not save auction to database");
