@@ -1,5 +1,6 @@
 import React from 'react'
 import { LuBanana } from 'react-icons/lu'
+import Search from './Search'
 
 export default function Navbar() {
   return (
@@ -10,7 +11,7 @@ export default function Navbar() {
         <LuBanana size={34}/>
         <div>BananaBid</div>
       </div>
-      <div>Search</div>
+      <Search />
       <div>Login</div>
     </header>
   )
