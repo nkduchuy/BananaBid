@@ -19,7 +19,7 @@ namespace AuctionService.Consumers
             Console.WriteLine("--> Consuming auction finished event");
 
             // Get auction from db
-            var auction = await _dbContext.Auctions.FindAsync(context.Message.AuctionId);
+            var auction = await _dbContext.Auctions.FindAsync(Guid.Parse(context.Message.AuctionId));
 
             // If sold, update winner and sold amount
             if (context.Message.ItemSold)

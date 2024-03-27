@@ -3,7 +3,7 @@ using MassTransit;
 using MongoDB.Entities;
 using SearchService.Entities;
 
-namespace SearchService;
+namespace SearchService.Consumers;
 
 public class BidPlacedConsumer : IConsumer<BidPlaced>
 {

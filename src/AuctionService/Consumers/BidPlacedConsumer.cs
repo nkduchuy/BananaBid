@@ -2,7 +2,7 @@
 using Contracts;
 using MassTransit;
 
-namespace AuctionService;
+namespace AuctionService.Consumers;
 
 public class BidPlacedConsumer : IConsumer<BidPlaced>
 {
@@ -18,7 +18,7 @@ public class BidPlacedConsumer : IConsumer<BidPlaced>
         Console.WriteLine("--> Consuming bid placed event");
 
         // Get auction from db
-        var auction = await _dbContext.Auctions.FindAsync(context.Message.AuctionId);
+        var auction = await _dbContext.Auctions.FindAsync(Guid.Parse(context.Message.AuctionId));
 
         // If no current high bid or new bid is higher, update high bid
         if (auction.CurrentHighBid == null 
