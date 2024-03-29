@@ -17,7 +17,7 @@ public class GrpcAuctionService : GrpcAuction.GrpcAuctionBase
         Console.WriteLine($"==> Received Grpc request for GetAuction endpoint with id: {request.Id}");
 
         // Find the auction by id
-        var auction = await _dbContext.Auctions.FindAsync(request.Id)
+        var auction = await _dbContext.Auctions.FindAsync(Guid.Parse(request.Id))
             ?? throw new RpcException(new Status(StatusCode.NotFound, "Not found"));
 
         var response = new GrpcAuctionResponse

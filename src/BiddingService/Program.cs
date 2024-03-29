@@ -46,6 +46,9 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Add background services
 builder.Services.AddHostedService<CheckAuctionFinished>();
 
+// Add gRPC client
+builder.Services.AddScoped<GrpcAuctionClient>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
