@@ -1,4 +1,5 @@
 using MassTransit;
+using NotificationService.Consumers;
 using NotificationService.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure RabbitMQ through MassTransit
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumersFromNamespaceContaining<AuctionCreatedConsumer>();
+
     x.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter("nt", false));
 
     x.UsingRabbitMq((context, cfg) =>
