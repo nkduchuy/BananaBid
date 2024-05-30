@@ -1,4 +1,5 @@
 using MassTransit;
+using NotificationService.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,12 @@ builder.Services.AddMassTransit(x =>
     });
 });
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 var app = builder.Build();
+
+// Configure SignalR
+app.MapHub<NotificationHub>("/notifications");
 
 app.Run();
