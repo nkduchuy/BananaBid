@@ -13,5 +13,7 @@ namespace AuctionService.Entities
         public DateTime AuctionEnd { get; set; }
         public Status Status { get; set; }
         public Item Item { get; set; }
+
+        public bool HassReservePrice() => ReservePrice > 0;
     }
 }
