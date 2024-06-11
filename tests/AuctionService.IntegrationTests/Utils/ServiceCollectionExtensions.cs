@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace AuctionService.IntegrationTests.Util;
+namespace AuctionService.IntegrationTests.Utils;
 
 public static class ServiceCollectionExtensions
 {
