@@ -96,7 +96,49 @@ public class AuctionControllerTests : IClassFixture<CustomWebAppFactory>, IAsync
         response.EnsureSuccessStatusCode();
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.Equal("bob", createdAuction.Seller);
-        
+    }
+
+        [Fact]
+    public async Task CreateAuction_WithInvalidCreateAuctionDto_Returns400BadRequest()
+    {
+        // Arrange
+        var auction = GetAuctionForCreate();
+        auction.Model = null;
+        _httpClient.SetFakeJwtBearerToken(AuthHelper.GetBearerForUser("bob"));
+
+        // Act
+        var response = await _httpClient.PostAsJsonAsync("api/auctions", auction);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateAuction_WithValidUpdateDtoAndUser_Returns200Ok()
+    {
+        // Arrange
+        var auction = new UpdateAuctionDto { Make = "NewTest"};
+        _httpClient.SetFakeJwtBearerToken(AuthHelper.GetBearerForUser("alice"));
+
+        // Act
+        var response = await _httpClient.PutAsJsonAsync($"api/auctions/{Bugatti_ID}", auction);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task UpdateAuction_WithValidUpdateDtoAndInvalidUser_Returns403Forbid()
+    {
+        // Arrange
+        var auction = new UpdateAuctionDto { Make = "NewTest"};
+        _httpClient.SetFakeJwtBearerToken(AuthHelper.GetBearerForUser("bob"));
+
+        // Act
+        var response = await _httpClient.PutAsJsonAsync($"api/auctions/{Bugatti_ID}", auction);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
     }
 
     public Task InitializeAsync()
