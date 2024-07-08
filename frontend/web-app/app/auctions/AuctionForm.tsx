@@ -37,17 +37,18 @@ export default function AuctionForm({auction}: Props) {
             
             if (pathname === '/auctions/create') {
                 const res = await createAuction(data);
+                if (res.error) 
+                    throw res.error;
                 id = res.id;
             } else {
                 if (auction) {
                     res = await updateAuction(data, auction.id);
+                    if (res.error) 
+                        throw res.error;
                     id = auction.id;
                 }
             }
-            
-            if (res.error) {
-                throw res.error;
-            }
+
             router.push(`/auctions/details/${id}`);
         }
         catch (error: any) {
