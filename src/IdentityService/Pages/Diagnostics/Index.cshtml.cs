@@ -22,11 +22,6 @@ public class Index : PageModel
             localAddresses.Add(HttpContext.Connection.LocalIpAddress.ToString());
         }
 
-        if (!localAddresses.Contains(HttpContext.Connection.RemoteIpAddress?.ToString()))
-        {
-            return NotFound();
-        }
-
         View = new ViewModel(await HttpContext.AuthenticateAsync());
             
         return Page();
