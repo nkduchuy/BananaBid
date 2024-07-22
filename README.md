@@ -23,13 +23,13 @@ A web-based vehicle auction application that allows users to create auctions and
 
 ## Running the application locally
 
-1. Clone the project
+1. Clone the project:
 
 ```bash
   git clone https://github.com/nkduchuy/BananaBid
 ```
 
-2. Go to the BananaBid directory
+2. Go to the BananaBid directory:
 
 ```bash
   cd BananaBid
